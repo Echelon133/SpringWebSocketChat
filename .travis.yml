@@ -1,3 +1,4 @@
+sudo: required
 language: java
 jdk: oraclejdk8
 deploy:
@@ -6,5 +7,5 @@ deploy:
   api_key:
     secure: nAT/WjDYAsXoRmmI/Sl23BP48mj1QyMvcU+9VLpCRn+fXnMHNufS56HWJqtFjIP3hpHFYok5vnBj0hzARwU5+H9FoE5qh+EmqUeFPhELkrsZecRz6DKxUoeOg79DRfbaY0YE/acXy8h/VhW6PgkEXkxcQYoVJQuwtmBt/84BVUMXn7p/QPO4nq1MjiSQOEffnbfGiVdvzM5n3+nbYcBBNbdAqAvw/aXZRhoYfhHvx9m03nX2aFf7zNAPrlEd2MpEKffXARX4LlCJcb0rezjE9/pBjrO1W5a/HMQnX1RLQf9d4H+Np9l8ivsD43U1QZEvXz4SaUC++pVVm/W/QV4B3taC1WpwO/a9vRRTHrzF20nqfksoBff/fCw2Wbt0dCPxvE6ItYApTWrv9kfJMBQbOfbub8KgITSHrpVW9Sez3b3n70Mf7ejiL1axtt73/D85kKTRWd0wP1wouCuSOq5diG9DODcHO/5h6F2AnZ8xefDeY66v4gjbBRRHrq2aj4/jh7LqI9H1b2Slko7/tCbwXBadUgGKGZyl3vgADCp99vgMXKzBk/3TtDpXFGz4gZrljnINdsrQHelV7G9IROmerbDC7eA3IailNbUV71yXjpR/HF8p8NbY1REn/D+nxHLtaz/GOL+LZr5S0GCcse8MmdQhfN+ZggqOQwWy50djZFc=
 before_install:
-- openssl aes-256-cbc -K $encrypted_0d7cecf551cb_key -iv $encrypted_0d7cecf551cb_iv
-  -in src/main/resources/application.yml.enc -out src/main/resources/application.yml -d
+  - openssl aes-256-cbc -K $encrypted_0d7cecf551cb_key -iv $encrypted_0d7cecf551cb_iv -in src/main/resources/application.yml.enc -out src/main/resources/application.yml -d
+
