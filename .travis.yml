@@ -10,3 +10,5 @@ before_install:
   - cat src/main/resources/application.yml.enc
   - openssl aes-256-cbc -K $encrypted_0d7cecf551cb_key -iv $encrypted_0d7cecf551cb_iv -in src/main/resources/application.yml.enc -out src/main/resources/application.yml -d
   - cat src/main/resources/application.yml
+after_success:
+  - cat src/main/resources/application.yml
