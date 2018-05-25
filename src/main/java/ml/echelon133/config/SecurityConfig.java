@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             Map<String, Object> oAuth2UserAttributes = oAuth2User.getAttributes();
             String usernameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-            // replace oAuth2User with recreated user that has updated authorities if there were any in
+            // replace oAuth2User with recreated user that has updated authorities if there were any stored as SpecialAuthority
             oAuth2User = new DefaultOAuth2User(mappedAuthorities, oAuth2UserAttributes, usernameAttributeName);
             return oAuth2User;
         };
