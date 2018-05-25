@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>SpringWebSocketChat</title>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
+<a href="/login">Login with Github</a>
+
 <h2>All rooms</h2>
-<ul id="rooms"></ul>
+<div id="rooms"></div>
 
 
 <script type="application/javascript">
-    // script placeholder
+    $.getJSON("/json/rooms", function(data) {
+        if (data.length === 0) {
+            $("#rooms").after("<div><p>No rooms</p></div>")
+        } else {
+            var rooms = [];
+            $.each(data, function (key, value) {
+                var link = "/rooms/" + value.name;
+                rooms.push("<div><a href=\"" + link + "\">" + value.name + "</a></div>");
+            });
+            $("#rooms").append(rooms.join(""));
+        }
+    });
 </script>
 </body>
 </html>
