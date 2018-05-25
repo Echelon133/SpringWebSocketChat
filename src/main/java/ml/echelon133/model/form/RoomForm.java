@@ -2,8 +2,6 @@ package ml.echelon133.model.form;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
-
 public class RoomForm {
 
     @Length(min = 3, max = 40)
