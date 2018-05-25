@@ -1,7 +1,9 @@
 package ml.echelon133.controller;
 
 import ml.echelon133.model.Room;
+import ml.echelon133.model.SpecialAuthority;
 import ml.echelon133.model.form.RoomForm;
+import ml.echelon133.model.form.SpecialAuthorityForm;
 import ml.echelon133.service.IRoomService;
 import ml.echelon133.service.ISpecialAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,25 @@ public class AdminController {
         }
         Room room = new Room(roomForm.getRoomName());
         roomService.save(room);
+        return "redirect:/admin";
+    }
+
+    @RequestMapping(value = "/admin/authorities", method = RequestMethod.GET)
+    public String getAdminAuthoritiesPanel(Model model) {
+        SpecialAuthorityForm specialAuthorityForm = new SpecialAuthorityForm();
+        model.addAttribute("specialAuthorityForm", specialAuthorityForm);
+        return "authoritiesPanel";
+    }
+
+    @RequestMapping(value = "/admin/authorities", method = RequestMethod.POST)
+    public String postAuthoritiesForm(@Valid SpecialAuthorityForm specialAuthorityForm, BindingResult result) {
+        if (result.hasErrors()) {
+            return "authoritiesPanel";
+        }
+        String username = specialAuthorityForm.getUsername();
+        String authority = specialAuthorityForm.getAuthority();
+        SpecialAuthority specialAuthority = new SpecialAuthority(username, authority);
+        authorityService.save(specialAuthority);
         return "redirect:/admin";
     }
 }
