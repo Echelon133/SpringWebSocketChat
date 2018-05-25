@@ -44,6 +44,6 @@ public class AdminController {
         }
         Room room = new Room(roomForm.getRoomName());
         roomService.save(room);
-        return "redirect:/adminPanel";
+        return "redirect:/admin";
     }
 }
