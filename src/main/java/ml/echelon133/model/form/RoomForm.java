@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 public class RoomForm {
 
-    @NotEmpty
     @Length(min = 3, max = 40)
     private String roomName;
 
