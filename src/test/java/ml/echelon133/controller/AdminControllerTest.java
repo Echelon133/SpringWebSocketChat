@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -159,5 +161,37 @@ public class AdminControllerTest {
                 .param("authority", "ROLE_ADMIN"))
                 .andExpect(
                         MockMvcResultMatchers.model().hasNoErrors());
+    }
+
+    @Test
+    public void adminDeleteRoomWithIdReturnsValidResponseIfRoomWasNotDeleted() throws Exception {
+        // Expected Json
+        String expectedJson = "{\"deleted\":false}";
+
+        // Given
+        given(roomService.deleteById("abcd")).willReturn(false);
+
+        // When
+        MockHttpServletResponse response = mvc.perform(delete("/admin/rooms/abcd")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString()).isEqualTo(expectedJson);
+    }
+
+    @Test
+    public void adminDeleteRoomWithIdReturnsValidResponseIfRoomWasDeleted() throws Exception {
+        // Expected Json
+        String expectedJson = "{\"deleted\":true}";
+
+        // Given
+        given(roomService.deleteById("abcd")).willReturn(true);
+
+        // When
+        MockHttpServletResponse response = mvc.perform(delete("/admin/rooms/abcd")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString()).isEqualTo(expectedJson);
     }
 }
