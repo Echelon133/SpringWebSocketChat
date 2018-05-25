@@ -85,4 +85,23 @@ public class RoomControllerTest {
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentAsString()).isEqualTo(roomsJsonContent.getJson());
     }
+
+    @Test
+    public void validRoomTitleIsRenderedWhenVisitingRoom() throws Exception {
+        List<String> testRoomNames = Arrays.asList("test", "test room", "Test  room", "test_room", "test-room", "test.room");
+
+        for (String roomName : testRoomNames) {
+            String roomUrl = "/rooms/" + roomName;
+            String expectedTitle = "<title>Room: " + roomName + "</title>";
+            String expectedHeader = "<h1>Room: " + roomName + "</h1>";
+
+            // When
+            MockHttpServletResponse response = mvc.perform(get(roomUrl)).andReturn().getResponse();
+
+            // Then
+            assertThat(response.getStatus()).isEqualTo(200);
+            assertThat(response.getContentAsString().contains(expectedTitle));
+            assertThat(response.getContentAsString().contains(expectedHeader));
+        }
+    }
 }
