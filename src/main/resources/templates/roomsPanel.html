@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Rooms Panel</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/admin/rooms}" th:object="${roomForm}" method="post">
+    <table>
+        <tr>
+            <td>New Room Name:</td>
+            <td><input type="text" th:field="*{roomName}" /></td>
+            <td th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}">Name Error</td>
+        </tr>
+    </table>
+    <input type="submit" value="Add New Room"/>
+</form>
+
+</body>
+</html>
