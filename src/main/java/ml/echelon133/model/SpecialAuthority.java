@@ -2,11 +2,12 @@ package ml.echelon133.model;
 
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 
 @RedisHash("SpecialAuthority")
-public class SpecialAuthority implements Serializable {
+public class SpecialAuthority implements Serializable, GrantedAuthority {
 
     private String id;
 
@@ -41,6 +42,7 @@ public class SpecialAuthority implements Serializable {
         this.username = username;
     }
 
+    @Override
     public String getAuthority() {
         return authority;
     }
