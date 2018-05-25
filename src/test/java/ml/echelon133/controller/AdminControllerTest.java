@@ -110,4 +110,54 @@ public class AdminControllerTest {
                                     .attributeErrorCount("roomForm", 1));
         }
     }
+
+    @Test
+    public void adminAuthoritiesPanelRendersCorrectly() throws Exception {
+        // When
+        MockHttpServletResponse response = mvc.perform(
+                get("/admin/authorities")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString().contains("<title>Authorities Panel</title>"));
+        assertThat(response.getContentAsString().contains("<form action=\"#\""));
+    }
+
+    @Test
+    public void adminAuthoritiesPanelSpecialAuthoritiesFormValidationRejectsEmptyUsername() throws Exception {
+        mvc.perform(post("/admin/authorities")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "")
+                .param("authority", "ROLE_ADMIN"))
+                .andExpect(
+                        MockMvcResultMatchers.model()
+                                .attributeHasFieldErrorCode("specialAuthorityForm", "username", "NotEmpty"))
+                .andExpect(
+                        MockMvcResultMatchers.model()
+                                .attributeErrorCount("specialAuthorityForm", 1));
+    }
+
+    @Test
+    public void adminAuthoritiesPanelSpecialAuthoritiesFormValidationRejectsInvalidAuthority() throws Exception {
+        mvc.perform(post("/admin/authorities")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "user")
+                .param("authority", "ASDF"))
+                .andExpect(
+                        MockMvcResultMatchers.model()
+                                .attributeHasFieldErrorCode("specialAuthorityForm", "authority", "ValidAuthority"))
+                .andExpect(
+                        MockMvcResultMatchers.model()
+                                .attributeErrorCount("specialAuthorityForm", 1));
+    }
+
+    @Test
+    public void adminAuthoritiesPanelSpecialAuthoritiesFormValidationAcceptsValidForm() throws Exception {
+        mvc.perform(post("/admin/authorities")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("username", "user")
+                .param("authority", "ROLE_ADMIN"))
+                .andExpect(
+                        MockMvcResultMatchers.model().hasNoErrors());
+    }
 }
