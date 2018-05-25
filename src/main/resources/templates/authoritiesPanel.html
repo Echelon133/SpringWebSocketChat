@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Authorities Panel</title>
+</head>
+<body>
+<form action="#" th:action="@{/admin/authorities}" th:object="${specialAuthorityForm}" method="post">
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td><input type="text" th:field="*{username}" /></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</td>
+            <td>Authority Name:</td>
+            <td><input type="text" th:field="*{authority}" /></td>
+            <td th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}">Authority Error</td>
+        </tr>
+    </table>
+    <input type="submit" value="Add New Authority"/>
+</form>
+</body>
+</html>
