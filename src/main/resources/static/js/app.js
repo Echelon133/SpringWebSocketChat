@@ -68,6 +68,11 @@ function onMessageReceivedHandler(payload) {
     } else {
         messageElement.classList.add("chat-message");
 
+        var avatarElement = document.createElement("img");
+        avatarElement.src = messageReceived.avatarUrl;
+        avatarElement.style.width = "50px";
+        avatarElement.style.height = "50px";
+
         var timeElement = document.createElement("p");
         var timeText = document.createTextNode(messageReceived.time);
         timeElement.appendChild(timeText);
@@ -77,9 +82,10 @@ function onMessageReceivedHandler(payload) {
         usernameElement.appendChild(usernameText);
 
         var messageBodyElement = document.createElement("p");
-        var messageBodyText = document.createTextNode(messageReceived.messageContent);
+        var messageBodyText = document.createTextNode(messageReceived.content);
         messageBodyElement.appendChild(messageBodyText);
 
+        messageElement.appendChild(avatarElement);
         messageElement.appendChild(timeElement);
         messageElement.appendChild(usernameElement);
         messageElement.appendChild(messageBodyElement);
