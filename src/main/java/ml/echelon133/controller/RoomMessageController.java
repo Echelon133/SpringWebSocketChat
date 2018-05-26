@@ -19,12 +19,7 @@ public class RoomMessageController {
     @MessageMapping("/{roomName}")
     @SendTo("/topic/{roomName}")
     public OutMessage roomMessageHandler(@DestinationVariable String roomName, OAuth2AuthenticationToken token,
-                                         @Valid InMessage inMessage, BindingResult result) {
-        if (result.hasErrors()) {
-            // There is only one constraint on InMessage, so we assume that only error possible is invalid message length
-            return new OutMessage("", "", "", "Invalid message length", MessageType.MSG_ERR);
-        }
-
+                                         InMessage inMessage) {
         Map<String, Object> userAttributes = token.getPrincipal().getAttributes();
         String username = userAttributes.get("login").toString();
         String avatarUrl = userAttributes.get("avatar_url").toString();
