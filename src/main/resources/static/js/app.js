@@ -4,7 +4,7 @@ var messageField = document.querySelector("#message");
 var csrf = document.querySelector("meta[name='_csrf']").getAttribute('value');
 var stompClient = null;
 var roomName = document.querySelector("meta[name='roomName']").getAttribute('value');
-var sentTo = "/msg/" + roomName;
+var sendTo = "/msg/" + roomName;
 var subscribeTo = "/topic/" + roomName;
 
 function connect(event) {
