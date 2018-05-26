@@ -2,10 +2,23 @@
 <html lang="en" xmlns:th="http://www.springframework.org/schema/beans">
 <head>
     <meta name="roomName" th:value="${roomName}"/>
+    <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <meta charset="UTF-8">
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
     <title th:text="'Room: ' + ${roomName}"></title>
 </head>
 <body>
 <h1 th:text="'Room: ' + ${roomName}"></h1>
+<div id="chat">
+    <div id="all-messages"></div>
+    <div class="message-box">
+        <form id="message-form" name="message-form">
+            <input type="text" id="message" placeholder="Message...">
+            <button type="submit" class="submit-msg">Send message</button>
+        </form>
+    </div>
+</div>
+<script src="/js/app.js"></script>
 </body>
 </html>
