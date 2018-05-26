@@ -1,16 +1,13 @@
 package ml.echelon133.controller;
 
 import ml.echelon133.model.message.InMessage;
-import ml.echelon133.model.message.MessageType;
 import ml.echelon133.model.message.OutMessage;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
