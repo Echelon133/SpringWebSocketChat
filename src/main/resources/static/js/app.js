@@ -79,6 +79,10 @@ function onMessageReceivedHandler(payload) {
         var messageBodyElement = document.createElement("p");
         var messageBodyText = document.createTextNode(messageReceived.messageContent);
         messageBodyElement.appendChild(messageBodyText);
+
+        messageElement.appendChild(timeElement);
+        messageElement.appendChild(usernameElement);
+        messageElement.appendChild(messageBodyElement);
     }
 
     messagesDiv.appendChild(messageElement);
