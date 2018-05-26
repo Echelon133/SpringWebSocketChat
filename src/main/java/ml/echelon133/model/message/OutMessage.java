@@ -18,7 +18,7 @@ public class OutMessage {
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.profileUrl = profileUrl;
-        this.content = HtmlUtils.htmlEscape(content);
+        this.content = HtmlUtils.htmlUnescape(content);
         this.time = LocalTime.now();
         this.type = type;
     }
@@ -36,7 +36,7 @@ public class OutMessage {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = HtmlUtils.htmlUnescape(content);
     }
 
     public LocalTime getTime() {
