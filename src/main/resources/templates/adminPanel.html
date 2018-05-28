@@ -30,6 +30,9 @@
 </table>
 
 <script type="application/javascript">
+
+    var csrf = $("meta[name=_csrf]").attr("value");
+
     $.getJSON("/json/rooms", function (data) {
         if (data.length === 0) {
             $("#rooms").after("<p>No rooms</p>");
@@ -65,7 +68,6 @@
 
     function deleteRoomWithId(id) {
         var url = "/admin/rooms/" + id;
-        var csrf = $("meta[name=_csrf]").attr("value");
         $.ajax({
             url: url,
             type: "DELETE",
@@ -82,7 +84,6 @@
 
     function deleteAuthorityWithId(id) {
         var url = "/admin/authorities/" + id;
-        var csrf = $("meta[name=_csrf]").attr("value");
         $.ajax({
             url: url,
             type: "DELETE",
