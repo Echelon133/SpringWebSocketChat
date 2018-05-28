@@ -21,7 +21,7 @@
             <a class="nav-link active" href="/">Home</a>
             <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
             <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
-            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
+            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
             <a class="nav-link" href="#" onClick="logout()">Logout</a>
         </nav>
     </div>
