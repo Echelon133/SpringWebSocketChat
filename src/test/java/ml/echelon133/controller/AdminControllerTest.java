@@ -181,14 +181,34 @@ public class AdminControllerTest {
 
     @Test
     public void adminDeleteRoomWithIdReturnsValidResponseIfRoomWasDeleted() throws Exception {
+        String roomId = "abcd";
+
         // Expected Json
         String expectedJson = "{\"deleted\":true}";
 
         // Given
-        given(roomService.deleteById("abcd")).willReturn(true);
+        given(roomService.deleteById(roomId)).willReturn(true);
 
         // When
-        MockHttpServletResponse response = mvc.perform(delete("/admin/rooms/abcd")).andReturn().getResponse();
+        MockHttpServletResponse response = mvc.perform(delete("/admin/rooms/" + roomId)).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString()).isEqualTo(expectedJson);
+    }
+
+    @Test
+    public void adminDeleteAuthorityWithIdReturnsValidResponseIfRoomWasDeleted() throws Exception {
+        String authorityId = "abcd";
+
+        // Expected Json
+        String expectedJson = "{\"deleted\":true}";
+
+        // Given
+        given(authorityService.deleteById(authorityId)).willReturn(true);
+
+        // When
+        MockHttpServletResponse response = mvc.perform(delete("/admin/authorities/" + authorityId)).andReturn().getResponse();
 
         // Then
         assertThat(response.getStatus()).isEqualTo(200);
