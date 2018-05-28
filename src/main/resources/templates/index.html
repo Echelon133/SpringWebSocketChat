@@ -17,7 +17,7 @@
             <a class="nav-link disabled" href="#">User not logged in</a>
         </nav>
         <!--/* userPrincipal was not null, we can display user login etc */-->
-        <nav class="nav" th:case="${*}">
+        <nav class="nav" th:case="*">
             <a class="nav-link active" href="/">Home</a>
             <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
             <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
