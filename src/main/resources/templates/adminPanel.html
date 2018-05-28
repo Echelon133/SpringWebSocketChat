@@ -2,7 +2,9 @@
 <html lang="en" xmlns:th="http://www.springframework.org/schema/beans">
 <head>
     <meta charset="UTF-8">
+    <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <title>Admin Panel</title>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -15,5 +17,86 @@
     </tr>
     <tbody id="rooms"></tbody>
 </table>
+
+<h2>All Special Authorities</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Authority Name</th>
+        <th>Action</th>
+    </tr>
+    <tbody id="authorities"></tbody>
+</table>
+
+<script type="application/javascript">
+    $.getJSON("/json/rooms", function (data) {
+        if (data.length === 0) {
+            $("#rooms").after("<p>No rooms</p>");
+        } else {
+            var rooms = [];
+            $.each(data, function (key, value) {
+                var deleteLink = "<a href='#' onClick='deleteRoomWithId(\"" + value.id + "\")'>Delete</a>";
+                rooms.push("<tr><td>" + value.id + "</td><td>" + value.name + "</td><td>" + deleteLink + "</td></tr>");
+            });
+
+            $("#rooms").append(rooms.join(""));
+        }
+    });
+
+    $.ajax({
+        url: "/json/special-authorities",
+        type: "GET",
+        headers: {"X-CSRF-TOKEN" : csrf},
+        success: function(data) {
+            if (data.length === 0) {
+                $("#authorities").after("<p>No special authorities</p>");
+            } else {
+                var rooms = [];
+                $.each(data, function (key, value) {
+                    var deleteLink = "<a href='#' onClick='deleteAuthorityWithId(\"" + value.id + "\")'>Delete</a>";
+                    rooms.push("<tr><td>" + value.id + "</td><td>" + value.username + "</td><td>"  + value.authority + "</td><td>" + deleteLink + "</td></tr>");
+                });
+
+                $("#authorities").append(rooms.join(""));
+            }
+        }
+    });
+
+    function deleteRoomWithId(id) {
+        var url = "/admin/rooms/" + id;
+        var csrf = $("meta[name=_csrf]").attr("value");
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            headers: {"X-CSRF-TOKEN" : csrf},
+            success: function(data) {
+                if (data.deleted) {
+                    location.reload();
+                } else {
+                    alert("Room deletion failed");
+                }
+            }
+        });
+    }
+
+    function deleteAuthorityWithId(id) {
+        var url = "/admin/authorities/" + id;
+        var csrf = $("meta[name=_csrf]").attr("value");
+        $.ajax({
+            url: url,
+            type: "DELETE",
+            headers: {"X-CSRF-TOKEN" : csrf},
+            success: function(data) {
+                if (data.deleted) {
+                    location.reload();
+                } else {
+                    alert("Authority deletion failed");
+                }
+            }
+        });
+    }
+</script>
+
 </body>
 </html>
