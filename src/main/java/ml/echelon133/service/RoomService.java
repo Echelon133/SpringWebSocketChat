@@ -42,7 +42,6 @@ public class RoomService implements IRoomService {
 
     @Override
     public boolean deleteById(String id) {
-        boolean wasDeleted = false;
         roomRepository.deleteById(id);
         return !roomRepository.existsById(id);
     }
