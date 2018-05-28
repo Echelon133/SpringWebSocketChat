@@ -1,27 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <title>SpringWebSocketChat</title>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
+<div class="containter">
+    <div th:switch="${#request.userPrincipal}">
+        <!--/* When user is not logged in  */-->
+        <nav class="nav" th:case="${null}">
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="/oauth2/authorization/github">Login with Github</a>
+            <a class="nav-link disabled" href="#">User not logged in</a>
+        </nav>
+        <!--/* userPrincipal was not null, we can display user login etc */-->
+        <nav class="nav" th:case="${*}">
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
+            <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
+            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
+            <a class="nav-link" href="#" onClick="logout()">Logout</a>
+        </nav>
+    </div>
 
-<a href="/login">Login with Github</a>
+    <div class="row mt-md-5">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="text-center">All Rooms</h2>
+            <div id="rooms" class="mt-md-4"></div>
+        </div>
+    </div>
 
-<h2>All rooms</h2>
-<div id="rooms"></div>
-
+</div>
 
 <script type="application/javascript">
-    $.getJSON("/json/rooms", function(data) {
+    var csrf = $("meta[name=_csrf]").attr("value");
+
+    function logout() {
+        $.ajax({
+            method: "POST",
+            url: "/logout",
+            headers: {"X-CSRF-TOKEN":csrf},
+            success: function() {
+                location.replace("/");
+            }
+        })
+    }
+
+    $.getJSON("/json/rooms", function (data) {
         if (data.length === 0) {
-            $("#rooms").after("<div><p>No rooms</p></div>")
+            $("#rooms").after("<h3 class='text-center'>No rooms</h3>");
         } else {
             var rooms = [];
-            $.each(data, function (key, value) {
+            $.each(data, function(key, value) {
                 var link = "/rooms/" + value.name;
-                rooms.push("<div><a href=\"" + link + "\">" + value.name + "</a></div>");
+                rooms.push("<div class='card'><div class='text-center card-body'><a href=\"" + link + "\">" + value.name + "</a></div></div>");
             });
             $("#rooms").append(rooms.join(""));
         }
