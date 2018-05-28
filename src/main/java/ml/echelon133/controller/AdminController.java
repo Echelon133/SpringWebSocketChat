@@ -79,4 +79,12 @@ public class AdminController {
         authorityService.save(specialAuthority);
         return "redirect:/admin";
     }
+
+    @RequestMapping(value = "/admin/authorities/{id}", method = RequestMethod.DELETE)
+    public @ResponseBody Map<String, Boolean> deleteAuthorityWithId(@PathVariable String id) {
+        Map<String, Boolean> response = new HashMap<>();
+        Boolean wasDeleted = authorityService.deleteById(id);
+        response.put("deleted", wasDeleted);
+        return response;
+    }
 }
