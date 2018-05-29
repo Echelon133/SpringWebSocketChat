@@ -99,6 +99,7 @@ function onMessageReceivedHandler(payload) {
         var messageDiv = document.createElement("div");
         messageDiv.classList.add("col-sm-9");
         messageDiv.classList.add("offset-sm-1");
+        messageDiv.style.wordWrap = "break-word";
 
         var messageParagraph = document.createElement("p");
         messageParagraph.innerText = messageReceived.content;
