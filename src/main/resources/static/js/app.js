@@ -43,52 +43,73 @@ function sendMessage(event) {
 
 function onMessageReceivedHandler(payload) {
     var messageReceived = JSON.parse(payload.body);
-    var displayedMessage;
-    var messageElement = document.createElement("div");
 
+    var messageElement = document.createElement("div");
     messageElement.classList.add("row");
 
     if (messageReceived.type === "MSG_JOIN") {
-        // mark message as an event (joined, left),
-        messageElement.classList.add("event-message");
-        var messageParagraph = document.createElement("p");
-        displayedMessage = messageReceived.username + " joined this room.";
 
-        var usernameJoinedText = document.createTextNode(displayedMessage);
-        messageParagraph.appendChild(usernameJoinedText);
-        messageElement.appendChild(messageParagraph);
+        var messageDiv = document.createElement("div");
+        messageDiv.classList.add("col-sm-12");
+
+        var messageParagraph = document.createElement("p");
+        messageParagraph.classList.add("text-center");
+
+        var usernameSpan = document.createElement("span");
+        usernameSpan.classList.add("text-primary");
+        usernameSpan.innerText = messageReceived.username;
+
+        var infoText = document.createTextNode(" joined the room");
+
+        messageParagraph.appendChild(usernameSpan);
+        messageParagraph.appendChild(infoText);
+        messageDiv.appendChild(messageParagraph);
+        messageElement.appendChild(messageDiv);
+
     } else if (messageReceived.type === "MSG_LEAVE") {
-        messageElement.classList.add("event-message");
-        var messageParagraph = document.createElement("p");
-        displayedMessage = messageReceived.username + " left this room.";
-
-        var usernameLeftText = document.createTextNode(displayedMessage);
-        messageParagraph.appendChild(usernameLeftText);
-        messageElement.appendChild(messageParagraph);
+       // for now it does not work
     } else {
-        messageElement.classList.add("chat-message");
+        // avatar
+        var avatarDiv = document.createElement("div");
+        avatarDiv.classList.add("col-sm-1");
 
-        var avatarElement = document.createElement("img");
-        avatarElement.src = messageReceived.avatarUrl;
-        avatarElement.style.width = "50px";
-        avatarElement.style.height = "50px";
+        var imgElement = document.createElement("img");
+        imgElement.src = messageReceived.avatarUrl;
+        imgElement.style.height = "50px";
+        imgElement.style.width = "50px";
 
-        var timeElement = document.createElement("p");
-        var timeText = document.createTextNode(messageReceived.time);
-        timeElement.appendChild(timeText);
+        avatarDiv.appendChild(imgElement);
 
-        var usernameElement = document.createElement("p");
-        var usernameText = document.createTextNode(messageReceived.username);
-        usernameElement.appendChild(usernameText);
+        // username and time
+        var usernameAndTimeDiv = document.createElement("div");
+        usernameAndTimeDiv.classList.add("col-sm-1");
 
-        var messageBodyElement = document.createElement("p");
-        var messageBodyText = document.createTextNode(messageReceived.content);
-        messageBodyElement.appendChild(messageBodyText);
+        var timeSpan = document.createElement("span");
+        timeSpan.classList.add("text-secondary");
+        timeSpan.innerText = messageReceived.time;
 
-        messageElement.appendChild(avatarElement);
-        messageElement.appendChild(timeElement);
-        messageElement.appendChild(usernameElement);
-        messageElement.appendChild(messageBodyElement);
+        var usernameParagraph = document.createElement("p");
+        usernameParagraph.classList.add("text-primary");
+        usernameParagraph.innerText = messageReceived.username;
+
+        usernameAndTimeDiv.appendChild(timeSpan);
+        usernameAndTimeDiv.appendChild(usernameParagraph);
+
+        // message content
+        var messageDiv = document.createElement("div");
+        messageDiv.classList.add("col-sm-9");
+        messageDiv.classList.add("offset-sm-1");
+
+        var messageParagraph = document.createElement("p");
+        messageParagraph.innerText = messageReceived.content;
+
+        messageDiv.appendChild(messageParagraph);
+
+        // now build all
+
+        messageElement.appendChild(avatarDiv);
+        messageElement.appendChild(usernameAndTimeDiv);
+        messageElement.appendChild(messageDiv);
     }
 
     messagesDiv.appendChild(messageElement);
