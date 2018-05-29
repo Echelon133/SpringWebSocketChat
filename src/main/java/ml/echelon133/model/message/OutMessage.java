@@ -3,12 +3,13 @@ package ml.echelon133.model.message;
 import org.springframework.web.util.HtmlUtils;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class OutMessage {
 
     private String username;
     private String content;
-    private LocalTime time;
+    private String time;
     private String avatarUrl;
     private String profileUrl;
     private MessageType type;
@@ -19,7 +20,7 @@ public class OutMessage {
         this.avatarUrl = avatarUrl;
         this.profileUrl = profileUrl;
         this.content = HtmlUtils.htmlUnescape(content);
-        this.time = LocalTime.now();
+        this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.type = type;
     }
 
@@ -39,12 +40,8 @@ public class OutMessage {
         this.content = HtmlUtils.htmlUnescape(content);
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     public String getAvatarUrl() {
