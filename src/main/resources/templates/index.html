@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
-<div class="containter">
+<div class="container">
     <div th:switch="${#request.userPrincipal}">
         <!--/* When user is not logged in  */-->
         <nav class="nav" th:case="${null}">
@@ -53,12 +53,10 @@
         if (data.length === 0) {
             $("#rooms").after("<h3 class='text-center'>No rooms</h3>");
         } else {
-            var rooms = [];
             $.each(data, function(key, value) {
                 var link = "/rooms/" + value.name;
-                rooms.push("<div class='card'><div class='text-center card-body'><a href=\"" + link + "\">" + value.name + "</a></div></div>");
+                $("#rooms").append("<div class='card'><div class='text-center card-body'><a href=\"" + link + "\">" + value.name + "</a></div></div>");
             });
-            $("#rooms").append(rooms.join(""));
         }
     });
 </script>
