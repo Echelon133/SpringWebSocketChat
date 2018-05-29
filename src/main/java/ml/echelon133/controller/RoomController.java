@@ -1,14 +1,12 @@
 package ml.echelon133.controller;
 
 import ml.echelon133.model.Room;
+import ml.echelon133.model.exception.RoomNotFoundException;
 import ml.echelon133.service.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,7 +27,17 @@ public class RoomController {
 
     @RequestMapping(value = "/rooms/{roomName}", method = RequestMethod.GET)
     public String getRoom(@PathVariable String roomName, Model model) {
+
+        if (roomService.getByName(roomName) == null) {
+            throw new RoomNotFoundException("Room does not exist");
+        }
         model.addAttribute("roomName", roomName);
         return "room";
+    }
+
+    @ExceptionHandler(RoomNotFoundException.class)
+    public String roomNotFound(Model model, RoomNotFoundException ex) {
+        model.addAttribute("message", ex.getMessage());
+        return "room404";
     }
 }
