@@ -2,6 +2,7 @@ package ml.echelon133.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ml.echelon133.model.Room;
+import ml.echelon133.model.exception.RoomNotFoundException;
 import ml.echelon133.service.IRoomService;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -103,5 +103,18 @@ public class RoomControllerTest {
             assertThat(response.getContentAsString().contains(expectedTitle));
             assertThat(response.getContentAsString().contains(expectedHeader));
         }
+    }
+
+    @Test
+    public void roomControllerRedirectsTo404IfRoomDoesNotExist() throws Exception {
+        // Given
+        given(roomService.getByName("test")).willReturn(null);
+
+        // When
+        MockHttpServletResponse response = mvc.perform(get("/rooms/test")).andReturn().getResponse();
+
+        // Then
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getContentAsString().contains("<title>Room Not Found</title>"));
     }
 }
