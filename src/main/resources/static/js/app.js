@@ -50,7 +50,7 @@ function onMessageReceivedHandler(payload) {
     if (messageReceived.type === "MSG_JOIN") {
 
         var messageDiv = document.createElement("div");
-        messageDiv.classList.add("col-sm-12");
+        messageDiv.classList.add("col-md-12");
 
         var messageParagraph = document.createElement("p");
         messageParagraph.classList.add("text-center");
@@ -71,7 +71,7 @@ function onMessageReceivedHandler(payload) {
     } else {
         // avatar
         var avatarDiv = document.createElement("div");
-        avatarDiv.classList.add("col-sm-1");
+        avatarDiv.classList.add("col-md-1");
 
         var imgElement = document.createElement("img");
         imgElement.src = messageReceived.avatarUrl;
@@ -82,7 +82,7 @@ function onMessageReceivedHandler(payload) {
 
         // username and time
         var usernameAndTimeDiv = document.createElement("div");
-        usernameAndTimeDiv.classList.add("col-sm-1");
+        usernameAndTimeDiv.classList.add("col-md-1");
 
         var timeSpan = document.createElement("span");
         timeSpan.classList.add("text-secondary");
@@ -97,8 +97,8 @@ function onMessageReceivedHandler(payload) {
 
         // message content
         var messageDiv = document.createElement("div");
-        messageDiv.classList.add("col-sm-9");
-        messageDiv.classList.add("offset-sm-1");
+        messageDiv.classList.add("col-md-9");
+        messageDiv.classList.add("offset-md-1");
         messageDiv.style.wordWrap = "break-word";
 
         var messageParagraph = document.createElement("p");
