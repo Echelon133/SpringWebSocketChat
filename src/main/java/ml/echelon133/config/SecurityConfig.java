@@ -41,7 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/", "/json/rooms", "/webjars/**", "/static/**").permitAll()
                     .antMatchers("/rooms/**").hasRole("USER")
                     .antMatchers("/json/special-authorities", "/admin", "/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated().and().oauth2Login().userInfoEndpoint().userService(oAuth2UserService());
+                    .anyRequest().authenticated()
+                .and()
+                    .oauth2Login().userInfoEndpoint().userService(oAuth2UserService())
+                .and()
+                    .loginPage("/oauth2/authorization/github")
+                .and()
+                    .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
     @Bean
