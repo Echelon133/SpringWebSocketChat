@@ -1,21 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <meta charset="UTF-8">
     <title>Rooms Panel</title>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container">
+    <div>
+        <nav class="nav">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
+            <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
+            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
+            <a class="nav-link" href="#" onClick="logout()">Logout</a>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-md-5">
+            <h1 class="text-center mt-md-5">New Room</h1>
+            <form action="#" th:action="@{/admin/rooms}" th:object="${roomForm}" method="post" class="form">
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}" class="alert alert-danger text-center"></div>
+                    <label for="room-name">Room name</label>
+                    <input id="room-name" type="text" th:field="*{roomName}" class="form-control"/>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Add New Room" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+    var csrf = $("meta[name=_csrf]").attr("value");
 
-<form action="#" th:action="@{/admin/rooms}" th:object="${roomForm}" method="post">
-    <table>
-        <tr>
-            <td>New Room Name:</td>
-            <td><input type="text" th:field="*{roomName}" /></td>
-            <td th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}">Name Error</td>
-        </tr>
-    </table>
-    <input type="submit" value="Add New Room"/>
-</form>
-
+    function logout() {
+        $.ajax({
+            method: "POST",
+            url: "/logout",
+            headers: {"X-CSRF-TOKEN":csrf},
+            success: function() {
+                location.replace("/");
+            }
+        })
+    }
+</script>
 </body>
 </html>
