@@ -1,22 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <meta charset="UTF-8">
     <title>Authorities Panel</title>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
 </head>
 <body>
-<form action="#" th:action="@{/admin/authorities}" th:object="${specialAuthorityForm}" method="post">
-    <table>
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" th:field="*{username}" /></td>
-            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</td>
-            <td>Authority Name:</td>
-            <td><input type="text" th:field="*{authority}" /></td>
-            <td th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}">Authority Error</td>
-        </tr>
-    </table>
-    <input type="submit" value="Add New Authority"/>
-</form>
+<div class="container">
+    <div>
+        <nav class="nav">
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
+            <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
+            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
+            <a class="nav-link" href="#" onClick="logout()">Logout</a>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3 mt-md-5">
+            <h1 class="text-center mt-md-5">New Special Authority</h1>
+            <form action="#" th:action="@{/admin/authorities}" th:object="${specialAuthorityForm}" method="post" class="form">
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger text-center"></div>
+                    <label for="username">Username</label>
+                    <input id="username" type="text" th:field="*{username}" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}" class="alert alert-danger text-center"></div>
+                    <label for="authority">Authority</label>
+                    <input id="authority" type="text" th:field="*{authority}" class="form-control"/>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Add New Special Authority" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="application/javascript">
+    var csrf = $("meta[name=_csrf]").attr("value");
+
+    function logout() {
+        $.ajax({
+            method: "POST",
+            url: "/logout",
+            headers: {"X-CSRF-TOKEN":csrf},
+            success: function() {
+                location.replace("/");
+            }
+        })
+    }
+</script>
 </body>
 </html>
