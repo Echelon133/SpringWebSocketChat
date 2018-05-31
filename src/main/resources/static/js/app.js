@@ -45,12 +45,14 @@ function onMessageReceivedHandler(payload) {
     var messageReceived = JSON.parse(payload.body);
 
     var messageElement = document.createElement("div");
-    messageElement.classList.add("row");
+    messageElement.classList.add("d-flex");
 
     if (messageReceived.type === "MSG_JOIN") {
 
+        messageElement.classList.add("justify-content-center");
+
         var messageDiv = document.createElement("div");
-        messageDiv.classList.add("col-md-12");
+        messageDiv.classList.add("d-flex");
 
         var messageParagraph = document.createElement("p");
         messageParagraph.classList.add("text-center");
@@ -71,7 +73,7 @@ function onMessageReceivedHandler(payload) {
     } else {
         // avatar
         var avatarDiv = document.createElement("div");
-        avatarDiv.classList.add("col-md-1");
+        avatarDiv.classList.add("p-2");
 
         var imgElement = document.createElement("img");
         imgElement.src = messageReceived.avatarUrl;
@@ -82,7 +84,7 @@ function onMessageReceivedHandler(payload) {
 
         // username and time
         var usernameAndTimeDiv = document.createElement("div");
-        usernameAndTimeDiv.classList.add("col-md-1");
+        usernameAndTimeDiv.classList.add("p-2");
 
         var timeSpan = document.createElement("span");
         timeSpan.classList.add("text-secondary");
@@ -97,8 +99,7 @@ function onMessageReceivedHandler(payload) {
 
         // message content
         var messageDiv = document.createElement("div");
-        messageDiv.classList.add("col-md-9");
-        messageDiv.classList.add("offset-md-1");
+        messageDiv.classList.add("p-3");
         messageDiv.style.wordWrap = "break-word";
 
         var messageParagraph = document.createElement("p");
