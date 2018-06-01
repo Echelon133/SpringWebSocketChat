@@ -10,39 +10,7 @@
 </head>
 <body>
 <div class="container">
-    <div th:switch="${#request.userPrincipal}" class="d-flex flex-column">
-        <!--/* When user is not logged in  */-->
-        <div th:case="${null}" class="d-flex">
-            <div class="p-2">
-                <div class="nav">
-                    <a class="nav-link active" href="/">Home</a>
-                </div>
-            </div>
-            <div class="ml-auto p-2">
-                <div class="nav">
-                    <a class="nav-link" href="/oauth2/authorization/github">Login with Github</a>
-                    <a class="nav-link disabled" href="#">User not logged in</a>
-                </div>
-            </div>
-        </div>
-        <div th:case="*" class="d-flex">
-            <!--/* userPrincipal was not null, we can display user login etc */-->
-            <div class="p-2">
-                <div class="nav">
-                    <a class="nav-link active" href="/">Home</a>
-                </div>
-            </div>
-            <div class="ml-auto p-2">
-                <div class="nav">
-                    <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
-                    <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
-                    <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
-                    <a class="nav-link" href="#" onClick="logout()">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div th:replace="./fragments/navbars :: nav-complex"></div>
     <div class="row">
         <div class="col-md-6 offset-md-3 mt-md-5">
             <h1 class="text-center mt-md-3" style="font-size: 45px;">404</h1>
