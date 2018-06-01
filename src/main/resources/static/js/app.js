@@ -1,6 +1,7 @@
 var messagesDiv = document.querySelector("#all-messages");
 var messageForm = document.querySelector("#message-form");
 var messageField = document.querySelector("#message");
+var disconnectButton = document.querySelector("#disconnect");
 var csrf = document.querySelector("meta[name='_csrf']").getAttribute('value');
 var stompClient = null;
 var roomName = document.querySelector("meta[name='roomName']").getAttribute('value');
@@ -14,10 +15,21 @@ function connect(event) {
     stompClient.connect({"X-CSRF-TOKEN":csrf}, onConnectedHandler, onErrorHandler);
 }
 
+function disconnect(event) {
+    stompClient.send(sendTo, {}, JSON.stringify({messageContent:"leave", type:"MSG_LEAVE"}));
+    stompClient.unsubscribe(subscribeTo, {});
+
+    stompClient.disconnect(onDisconnectedHandler, {});
+}
+
 function onConnectedHandler() {
     stompClient.subscribe(subscribeTo, onMessageReceivedHandler);
     // Send initial message with MSG_JOIN type so the server can display "X join the room"
-    stompClient.send(sendTo, {}, JSON.stringify({messageContent:"", type:"MSG_JOIN"}));
+    stompClient.send(sendTo, {}, JSON.stringify({messageContent:"join", type:"MSG_JOIN"}));
+}
+
+function onDisconnectedHandler() {
+    document.location.replace("/");
 }
 
 function onErrorHandler(error) {
@@ -140,4 +152,5 @@ function onMessageReceivedHandler(payload) {
 }
 
 connect();
+disconnectButton.addEventListener("click", disconnect, true);
 messageForm.addEventListener("submit", sendMessage, true);
