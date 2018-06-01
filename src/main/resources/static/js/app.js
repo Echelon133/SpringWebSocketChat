@@ -56,6 +56,7 @@ function onMessageReceivedHandler(payload) {
 
         var messageParagraph = document.createElement("p");
         messageParagraph.classList.add("text-center");
+        messageParagraph.classList.add("text-success");
 
         var usernameSpan = document.createElement("span");
         usernameSpan.classList.add("text-primary");
@@ -69,7 +70,27 @@ function onMessageReceivedHandler(payload) {
         messageElement.appendChild(messageDiv);
 
     } else if (messageReceived.type === "MSG_LEAVE") {
-       // for now it does not work
+
+        messageElement.classList.add("justify-content-center");
+
+        var messageDiv = document.createElement("div");
+        messageDiv.classList.add("d-flex");
+
+        var messageParagraph = document.createElement("p");
+        messageParagraph.classList.add("text-center");
+        messageParagraph.classList.add("text-danger");
+
+        var usernameSpan = document.createElement("span");
+        usernameSpan.classList.add("text-primary");
+        usernameSpan.innerText = messageReceived.username;
+
+        var infoText = document.createTextNode(" left the room");
+
+        messageParagraph.appendChild(usernameSpan);
+        messageParagraph.appendChild(infoText);
+        messageDiv.appendChild(messageParagraph);
+        messageElement.appendChild(messageDiv);
+
     } else {
         // avatar
         var avatarDiv = document.createElement("div");
