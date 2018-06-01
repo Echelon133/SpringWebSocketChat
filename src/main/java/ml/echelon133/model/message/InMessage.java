@@ -1,8 +1,12 @@
 package ml.echelon133.model.message;
 
+import org.hibernate.validator.constraints.Length;
+
 public class InMessage {
 
     private MessageType type;
+
+    @Length(min=1, max=200)
     private String messageContent;
 
     public MessageType getType() {
