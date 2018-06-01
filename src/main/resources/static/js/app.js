@@ -36,18 +36,30 @@ function onErrorHandler(error) {
     alert("There was an error with connecting to this room: " + error.toString());
 }
 
+function isMessageLengthValid(messageText) {
+    if (messageText.length === 0 || messageText.length > 200) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function sendMessage(event) {
     var messageText = messageField.value.trim();
 
-    if (messageText && stompClient) {
-        var chatMessage = {
-            messageContent: messageText,
-            type: "MSG_CHAT"
-        };
+    if (isMessageLengthValid(messageText)) {
+        if (messageText && stompClient) {
+            var chatMessage = {
+                messageContent: messageText,
+                type: "MSG_CHAT"
+            };
 
-        stompClient.send(sendTo, {}, JSON.stringify(chatMessage));
-        // After the message is sent, clear the input field for the next message
-        messageField.value = '';
+            stompClient.send(sendTo, {}, JSON.stringify(chatMessage));
+            // After the message is sent, clear the input field for the next message
+            messageField.value = '';
+        }
+    } else {
+        alert("Message length should be between 1 and 200 characters");
     }
 
     event.preventDefault();
