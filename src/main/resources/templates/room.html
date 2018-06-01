@@ -8,6 +8,7 @@
     <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
     <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/logout.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
     <title th:text="'Room: ' + ${roomName}"></title>
 </head>
@@ -34,19 +35,5 @@
     </div>
 </div>
 <script src="/js/app.js" type="application/javascript"></script>
-<script>
-    var csrf = $("meta[name=_csrf]").attr("value");
-
-    function logout() {
-        $.ajax({
-            method: "POST",
-            url: "/logout",
-            headers: {"X-CSRF-TOKEN":csrf},
-            success: function() {
-                location.replace("/");
-            }
-        })
-    }
-</script>
 </body>
 </html>

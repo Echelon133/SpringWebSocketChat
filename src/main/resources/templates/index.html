@@ -5,6 +5,7 @@
     <meta th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <title>SpringWebSocketChat</title>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/js/logout.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
@@ -17,23 +18,8 @@
             <div id="rooms" class="mt-md-4"></div>
         </div>
     </div>
-
 </div>
-
 <script type="application/javascript">
-    var csrf = $("meta[name=_csrf]").attr("value");
-
-    function logout() {
-        $.ajax({
-            method: "POST",
-            url: "/logout",
-            headers: {"X-CSRF-TOKEN":csrf},
-            success: function() {
-                location.replace("/");
-            }
-        })
-    }
-
     $.getJSON("/json/rooms", function (data) {
         if (data.length === 0) {
             $("#rooms").after("<h3 class='text-center'>No rooms</h3>");
