@@ -100,7 +100,7 @@ function onMessageReceivedHandler(payload) {
         // message content
         var messageDiv = document.createElement("div");
         messageDiv.classList.add("p-3");
-        messageDiv.style.wordWrap = "break-word";
+        messageDiv.style.wordBreak = "break-word";
 
         var messageParagraph = document.createElement("p");
         messageParagraph.innerText = messageReceived.content;
