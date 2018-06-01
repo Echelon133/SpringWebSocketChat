@@ -13,14 +13,22 @@
 </head>
 <body>
 <div class="container">
-    <div>
-        <nav class="nav">
-            <a class="nav-link" href="/">Home</a>
-            <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
-            <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
-            <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
-            <a class="nav-link" href="#" onClick="logout()">Logout</a>
-        </nav>
+    <div class="d-flex flex-column">
+        <div class="d-flex">
+            <div class="p-2">
+                <div class="nav">
+                    <a class="nav-link" href="/">Home</a>
+                </div>
+            </div>
+            <div class="ml-auto p-2">
+                <div class="nav">
+                    <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="/admin">Admin</a>
+                    <!--/* Login is taken from attributes, because principal name is some github ID and it looks like ex. [500000] */-->
+                    <a class="nav-link" th:href="@{'https://github.com/' + ${#request.userPrincipal.principal.attributes.login}}" th:text="${#request.userPrincipal.principal.attributes.login}"></a>
+                    <a class="nav-link" href="#" onClick="logout()">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row mt-md-3">
         <div class="col-md-10 offset-md-1">
