@@ -148,7 +148,7 @@ function onMessageReceivedHandler(payload) {
         messageDiv.style.wordBreak = "break-word";
 
         var messageParagraph = document.createElement("p");
-        messageParagraph.innerText = messageReceived.content;
+        messageParagraph.innerHTML = messageReceived.content;
 
         messageDiv.appendChild(messageParagraph);
 
