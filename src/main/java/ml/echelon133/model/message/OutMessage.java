@@ -19,7 +19,7 @@ public class OutMessage {
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.profileUrl = profileUrl;
-        this.content = HtmlUtils.htmlUnescape(content);
+        this.content = MessageUtils.prepareMessage(content);
         this.time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         this.type = type;
     }
