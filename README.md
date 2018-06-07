@@ -16,4 +16,13 @@ When any user logs in using **Github OAuth2**, **OAuth2UserService**:
 * checks in Redis whether the user that currently wants to log in has any additional authorities, if this condition is true, the set holding authorities is updated
 * recreates the **OAuth2User** object with updated authorities
 
-
+## Screens
+### Main page
+![Main page](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat1.png)
+![Main page logged in](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat2.png)
+### Admin panel
+![Admin panel](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat3.png)
+![New room](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat4.png)
+![New special authority](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat5.png)
+### Chat 
+![Chat](https://github.com/Echelon133/SpringWebSocketChat/blob/master/screens/WebChat6.png)
